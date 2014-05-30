@@ -3,6 +3,7 @@
 from storm.locals import *
 
 import data_def
+import generate_data
 
 
 if __name__ == "__main__":
@@ -11,6 +12,7 @@ if __name__ == "__main__":
     store = Store(database)
 
     data_def.create_db(store)
+    generate_data.generate_testdata(store)
 
     store.commit()
 
