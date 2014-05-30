@@ -4,6 +4,7 @@ from storm.locals import *
 
 import data_def
 import generate_data
+import reports
 
 
 if __name__ == "__main__":
@@ -16,5 +17,5 @@ if __name__ == "__main__":
 
     store.commit()
 
-
+    reports.meldungen(store)
 
