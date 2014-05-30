@@ -12,16 +12,18 @@ def meldungen_text(store):
 
 
 from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
 
 def meldungen_lowlevel(store):
-    canv = canvas.Canvas('lowlevel.pdf')
-    y = 750
+    canv = canvas.Canvas('lowlevel.pdf', pagesize=A4)
+    Width,Height=A4
+    y = Height - 50
     canv.drawString(50,y, "Meldungen")
     y -= 20
     for r in store.find(Rennen):
         if y < 100:
             canv.showPage()
-            y=750
+            y=Height - 50
         canv.drawString(50,y, u"Rennen {r}".format(r=r.nr))
         y -= 12
         for b in r.boote:
@@ -30,7 +32,7 @@ def meldungen_lowlevel(store):
             y -= 11
             if y < 50:
                 canv.showPage()
-                y=750
+                y=Height - 50
         y -= 5
     canv.showPage()
     canv.save()
