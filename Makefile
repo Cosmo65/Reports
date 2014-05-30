@@ -1,0 +1,2 @@
+q quick:
+	./main.py
