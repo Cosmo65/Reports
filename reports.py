@@ -6,7 +6,10 @@ from data_def import *
 def meldungen_text(store):
     print "meldungen"
     for r in store.find(Rennen):
-        print u"Rennen {r}".format(r=r.nr)
+        print u"Rennen {r}  ".format(r=r.nr), 
+        for l in r.laeufe:
+            print u"{stz} ".format(stz=l.startzeit),
+        print
         for b in r.boote:
             print u"  Meldung {m}".format(m=b.team)
 
