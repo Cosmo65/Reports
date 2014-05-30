@@ -19,12 +19,15 @@ def meldungen_lowlevel(store):
     Width,Height=A4
     y = Height - 50
     canv.drawString(50,y, "Meldungen")
+    canv.line(50, y-2, Width-50, y-2)
+    canv.line(50, y-4, Width-50, y-4)
     y -= 20
     for r in store.find(Rennen):
         if y < 100:
             canv.showPage()
             y=Height - 50
         canv.drawString(50,y, u"Rennen {r}".format(r=r.nr))
+        canv.line(50, y-2, Width-50, y-2)
         y -= 12
         for b in r.boote:
             canv.drawString(50+20,y, u"Bug Nr. {nr}:".format(nr=b.bnr))
