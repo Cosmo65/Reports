@@ -2,14 +2,17 @@
 
 from storm.locals import *
 
-
-class Person(object):
-    __storm_table__ = 'person'
-    id = Int(primary=True)
-    name = Unicode()
+import data_def
 
 
-database = create_database("sqlite:test.db")
-store = Store(database)
+if __name__ == "__main__":
+    #database = create_database("sqlite:test.db")
+    database = create_database("sqlite:")
+    store = Store(database)
+
+    data_def.create_db(store)
+
+    store.commit()
+
 
 
