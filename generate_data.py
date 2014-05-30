@@ -26,14 +26,24 @@ def generate_testdata(store):
             b.team = u"Rennen {r} Boot {b}".format(r=nr, b=bnr)
             store.add(b)
 
-        for typ in (u'A'):
-            for lnr in range(1, 1+int(ceil(b.bnr/6.0))):
+        if random.randint(0,1):
+            for typ in (u'A'):
+                for lnr in range(1, 1+int(ceil(b.bnr/6.0))):
+                    l = Lauf()
+                    l.rennen = r
+                    l.typ = typ
+                    l.nr = lnr
+                    l.startzeit = startzeit
+                    startzeit += timedelta(minutes=5)
+        else:
+            for typ in (u'V', u'H', u'F'):
                 l = Lauf()
                 l.rennen = r
                 l.typ = typ
-                l.nr = lnr
+                l.nr = 0
                 l.startzeit = startzeit
-                startzeit += timedelta(minutes=5)
+                startzeit += timedelta(minutes=5*int(ceil(b.bnr/6.0)))
+
 
 if __name__ == '__main__':
     database = create_database("sqlite:test.db")
