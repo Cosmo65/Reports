@@ -30,6 +30,11 @@ def meldungen_lowlevel(store):
             canv.showPage()
             y=Height - 50
         canv.drawString(50,y, u"Rennen {r}".format(r=r.nr))
+        y += 12
+        for l in sorted(r.laeufe, key=lambda lauf: lauf.seq):
+            y -= 12
+            canv.drawString(250,y, u"{t}: {stz:%d.%m. %H:%M}".format(t=l.typ, stz=l.startzeit))
+
         canv.line(50, y-2, Width-50, y-2)
         y -= 12
         for b in r.boote:
