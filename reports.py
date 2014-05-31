@@ -7,7 +7,7 @@ def meldungen_text(store):
     print "meldungen"
     for r in store.find(Rennen):
         print u"Rennen {r}  ".format(r=r.nr), 
-        for l in r.laeufe:
+        for l in sorted(r.laeufe, key=lambda lauf: lauf.seq):
             print u"{t}{n}: {stz}, ".format(t=l.typ, n=l.seq, stz=l.startzeit),
         print
         for b in r.boote:
