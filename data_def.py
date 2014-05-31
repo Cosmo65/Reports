@@ -22,12 +22,22 @@ class Lauf(object):
     __storm_table__ = 'lauf'
     id = Int(primary=True)
     typ = Unicode()
-    nr = Int()
+    seq = Int()
     rennen_id = Int()
     rennen = Reference(rennen_id, Rennen.id)
     startzeit = DateTime()
 
 Rennen.laeufe = ReferenceSet(Rennen.id, Lauf.rennen_id)
+
+class Abteilung(object):
+    __storm_table__ = 'abteilung'
+    id = Int(primary=True)
+    lauf_id = Int()
+    lauf = Reference(lauf_id, Lauf.id)
+    nr = Int()
+    startzeit = DateTime()
+
+
 
 class Start(object):
     __storm_table__ = 'start'
@@ -42,7 +52,8 @@ class Start(object):
 def create_db(store):
     store.execute("CREATE TABLE rennen (id INTEGER PRIMARY KEY, nr INTEGER, name VARCHAR);");
     store.execute("CREATE TABLE boot (id INTEGER PRIMARY KEY, bnr INTEGER, team VARCHAR, rennen_id INTEGER REFERENCES rennen(id));");
-    store.execute("CREATE TABLE lauf (id INTEGER PRIMARY KEY, typ VARCHAR, nr INTEGER, rennen_id INTEGER REFERENCES rennen(id), startzeit DATETIME);");
+    store.execute("CREATE TABLE lauf (id INTEGER PRIMARY KEY, typ VARCHAR, seq INTEGER, rennen_id INTEGER REFERENCES rennen(id), startzeit DATETIME);");
+    store.execute("CREATE TABLE abteilung (id INTEGER PRIMARY KEY, lauf_id INTEGER REFERENCES lauf(id), nr VARCHAR, startzeit DATETIME);");
     store.execute("CREATE TABLE start (id INTEGER PRIMARY KEY, lauf_id INTEGER REFERENCES lauf(id), boot_id INTEGER REFERENCES boot(id), startzeit DATETIME);");
     store.commit();
 

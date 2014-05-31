@@ -13,6 +13,8 @@ import random
 def generate_testdata(store):
     random.seed()
     startzeit = datetime(2014, 5, 30, 9, 00)
+    hstartzeit = datetime(2014, 5, 31, 9, 00)
+    fstartzeit = datetime(2014, 5, 31, 12, 00)
     for nr in range(1, random.randint(5,10)):
         r = Rennen()
         r.nr = nr
@@ -27,22 +29,45 @@ def generate_testdata(store):
             store.add(b)
 
         if random.randint(0,1):
-            for typ in (u'A'):
-                for lnr in range(1, 1+int(ceil(b.bnr/6.0))):
-                    l = Lauf()
-                    l.rennen = r
-                    l.typ = typ
-                    l.nr = lnr
-                    l.startzeit = startzeit
-                    startzeit += timedelta(minutes=5)
+            # only 'Abteilung'
+            l = Lauf()
+            l.rennen = r
+            l.typ = u'A'
+            l.seq = 0
+            l.startzeit = startzeit
+            store.add(l)
+            for anr in range(1, 1+int(ceil(b.bnr/6.0))):
+                a = Abteilung()
+                a.lauf = l
+                a.nr = anr
+                a.startzeit = startzeit
+                startzeit += timedelta(minutes=5)
+                store.add(a)
         else:
-            for typ in (u'V', u'H', u'F'):
-                l = Lauf()
-                l.rennen = r
-                l.typ = typ
-                l.nr = 0
-                l.startzeit = startzeit
-                startzeit += timedelta(minutes=5*int(ceil(b.bnr/6.0)))
+            # Vorlauf, Hoffnungslauf, Finale
+            l = Lauf()
+            l.rennen = r
+            l.typ = u'V'
+            l.seq = 1
+            l.startzeit = startzeit
+            startzeit += timedelta(minutes=5*int(ceil(b.bnr/6.0)))
+            store.add(l)
+
+            l = Lauf()
+            l.rennen = r
+            l.typ = u'H'
+            l.seq = 2
+            l.startzeit = hstartzeit
+            store.add(l)
+            hstartzeit += timedelta(minutes=5*int(ceil(b.bnr/6.0)))
+
+            l = Lauf()
+            l.rennen = r
+            l.typ = u'F'
+            l.seq = 3
+            l.startzeit = fstartzeit
+            store.add(l)
+            fstartzeit += timedelta(minutes=5*int(ceil(b.bnr/6.0)))
 
 
 if __name__ == '__main__':
